@@ -19,6 +19,7 @@ import {
   BookOpen, 
   Plus, 
   Info,
+  Sparkles,
   User,
   LogOut 
 } from 'lucide-react';
@@ -32,6 +33,7 @@ export function Navigation() {
   const navItems = [
     { name: 'Home', href: '/', icon: Home },
     { name: 'Tutorials', href: '/tutorials', icon: BookOpen },
+    { name: 'Prompts', href: '/prompts', icon: Sparkles },
     { name: 'Submit', href: '/submit', icon: Plus },
     { name: 'About', href: '/about', icon: Info },
   ];

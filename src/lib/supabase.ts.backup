@@ -28,33 +28,32 @@ export type Profile = {
   avatar_url?: string;
   created_at: string;
 };
-
 /**
  * MODEL & PROMPT MANAGEMENT TYPES
  * ------------------------------------------------------------------
  * A flexible schema that supports:
  *  • Multiple model providers (OpenAI, Gemini, Anthropic, local LLMs)
  *  • Versioning so users can iterate on prompts
- *  • Role-based / chain-of-thought / few-shot templates via `structure_type`
+ *  • Role-based / chain-of-thought / few-shot templates via 
  *  • Optional private visibility for premium tiers
  * ------------------------------------------------------------------
  */
 
-export type ModelProvider = 'openai' | 'gemini' | 'anthropic' | 'local';
+export type ModelProvider = openai | gemini | anthropic | local;
 
 /**
  * Common identifiers we expect to support out of the box.
  * Users can technically store any string so we keep this list
- * extensible by falling back to `string`.
+ * extensible by falling back to .
  */
 export type ModelIdentifier =
-  | 'gpt_4o'
-  | 'gpt_4'
-  | 'gpt_3_5_turbo'
-  | 'gemini_pro_2_5'
-  | 'gemini_flash_2_5'
-  | 'claude_3'
-  | 'ollama'
+  | gpt-4o
+  | gpt-4
+  | gpt-3.5-turbo
+  | gemini-pro-2.5
+  | gemini-flash-2.5
+  | claude-3
+  | ollama
   | (string & {}); // allow arbitrary custom model names
 
 export interface PromptParameters {
@@ -67,13 +66,13 @@ export interface PromptParameters {
   [key: string]: any; // future-proof for provider-specific params
 }
 
-export type PromptVisibility = 'public' | 'private';
+export type PromptVisibility = public | private;
 
 export type PromptStructureType =
-  | 'free_form'
-  | 'role_based'
-  | 'chain_of_thought'
-  | 'few_shot';
+  | free-form
+  | role-based
+  | chain-of-thought
+  | few-shot;
 
 export type Prompt = {
   id: string;
