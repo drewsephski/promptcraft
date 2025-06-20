@@ -29,10 +29,10 @@ export function PromptCard({ prompt, variant = 'default' }: PromptCardProps) {
   };
 
   const structureTypeColors = {
-    'free-form': 'bg-slate-500/10 text-slate-400 border-slate-500/20',
-    'role-based': 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-    'chain-of-thought': 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
-    'few-shot': 'bg-green-500/10 text-green-400 border-green-500/20',
+    free_form: 'bg-slate-500/10 text-slate-400 border-slate-500/20',
+    role_based: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+    chain_of_thought: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
+    few_shot: 'bg-green-500/10 text-green-400 border-green-500/20',
   };
 
   const handleCopyPrompt = () => {
@@ -109,7 +109,7 @@ export function PromptCard({ prompt, variant = 'default' }: PromptCardProps) {
                   variant="outline" 
                   className={structureTypeColors[prompt.structure_type as keyof typeof structureTypeColors]}
                 >
-                  {prompt.structure_type.replace(/-/g, ' ')}
+                  {prompt.structure_type.replace(/[_-]/g, ' ')}
                 </Badge>
               )}
             </div>

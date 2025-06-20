@@ -1,7 +1,7 @@
-import { createClient } from @supabase/supabase-js;
+import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || ;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || ;
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
@@ -11,7 +11,7 @@ export type Tutorial = {
   description: string;
   content: string;
   category: string;
-  difficulty: beginner | intermediate | advanced;
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
   github_url?: string;
   author_id: string;
   author_name: string;
@@ -35,22 +35,27 @@ export type Profile = {
  * A flexible schema that supports:
  *  • Multiple model providers (OpenAI, Gemini, Anthropic, local LLMs)
  *  • Versioning so users can iterate on prompts
- *  • Role-based / chain-of-thought / few-shot templates via structure_type
+ *  • Role-based / chain-of-thought / few-shot templates via `structure_type`
  *  • Optional private visibility for premium tiers
  * ------------------------------------------------------------------
  */
 
-export type ModelProvider = openai | gemini | anthropic | local;
+export type ModelProvider = 'openai' | 'gemini' | 'anthropic' | 'local';
 
+/**
+ * Common identifiers we expect to support out of the box.
+ * Users can technically store any string so we keep this list
+ * extensible by falling back to `string`.
+ */
 export type ModelIdentifier =
-  | gpt-4o
-  | gpt-4
-  | gpt-3.5-turbo
-  | gemini-pro-2.5
-  | gemini-flash-2.5
-  | claude-3
-  | ollama
-  | string;
+  | 'gpt_4o'
+  | 'gpt_4'
+  | 'gpt_3_5_turbo'
+  | 'gemini_pro_2_5'
+  | 'gemini_flash_2_5'
+  | 'claude_3'
+  | 'ollama'
+  | (string & {}); // allow arbitrary custom model names
 
 export interface PromptParameters {
   temperature?: number;
@@ -59,32 +64,41 @@ export interface PromptParameters {
   presence_penalty?: number;
   frequency_penalty?: number;
   stop?: string[];
-  [key: string]: any;
+  [key: string]: any; // future-proof for provider-specific params
 }
 
-export type PromptVisibility = public | private;
+export type PromptVisibility = 'public' | 'private';
 
 export type PromptStructureType =
-  | free-form
-  | role-based
-  | chain-of-thought
-  | few-shot;
+  | 'free_form'
+  | 'role_based'
+  | 'chain_of_thought'
+  | 'few_shot';
 
 export type Prompt = {
   id: string;
   title: string;
   description: string;
+  /** The main prompt text or JSON for multi-role prompts */
   content: string;
   category?: string;
   tags: string[];
+
+  /** Ownership & audit */
   author_id: string;
   author_name: string;
   created_at: string;
   updated_at: string;
+
+  /** Model information */
   provider: ModelProvider;
   model: ModelIdentifier;
   parameters: PromptParameters;
+
+  /** Versioning & visibility */
   version: number;
   visibility: PromptVisibility;
+
+  /** Optional helper to suggest which template style it follows */
   structure_type?: PromptStructureType;
 };

@@ -1,7 +1,7 @@
-import React from react;
-import { Link, useParams } from react-router-dom;
-import { Button } from @/components/ui/button;
-import { ArrowLeft, Construction } from lucide-react;
+import React from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft, Construction } from 'lucide-react';
 
 export function CreateEditPromptPage() {
   const { id } = useParams<{ id: string }>();
@@ -26,4 +26,18 @@ export function CreateEditPromptPage() {
       <div className="text-center py-20">
         <Construction className="h-16 w-16 text-slate-600 mx-auto mb-4" />
         <h1 className="text-2xl font-bold text-white mb-4">
-          {isEditMode ? Edit
+          {isEditMode ? 'Edit Prompt Page' : 'Create Prompt Page'} Coming Soon
+        </h1>
+        <p className="text-slate-400 mb-6">
+          This page will provide a comprehensive form for creating and editing prompts with templates, 
+          variable management, and parameter configuration.
+        </p>
+        {isEditMode && (
+          <p className="text-slate-500 text-sm">
+            Edit mode for prompt ID: {id}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}

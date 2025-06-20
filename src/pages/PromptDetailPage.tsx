@@ -1,7 +1,7 @@
-import React from react;
-import { Link, useParams } from react-router-dom;
-import { Button } from @/components/ui/button;
-import { ArrowLeft, Construction } from lucide-react;
+import React from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft, Construction } from 'lucide-react';
 
 export function PromptDetailPage() {
   const { id } = useParams<{ id: string }>();

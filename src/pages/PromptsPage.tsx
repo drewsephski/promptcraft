@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Prompt, ModelProvider, PromptVisibility, PromptStructureType, supabase } from '@/lib/supabase';
+import { Prompt } from '@/lib/supabase';
 import { Loader2, Sparkles, Plus, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -36,14 +36,14 @@ export function PromptsPage() {
       created_at: '2024-05-15T10:00:00Z',
       updated_at: '2024-05-15T10:00:00Z',
       provider: 'openai',
-      model: 'gpt-4o',
+      model: 'gpt_4o',
       parameters: {
         temperature: 0.7,
         max_tokens: 500
       },
       version: 1,
       visibility: 'public',
-      structure_type: 'role-based'
+      structure_type: 'role_based'
     },
     {
       id: '2',
@@ -57,14 +57,14 @@ export function PromptsPage() {
       created_at: '2024-05-14T15:30:00Z',
       updated_at: '2024-05-14T15:30:00Z',
       provider: 'gemini',
-      model: 'gemini-pro-2.5',
+      model: 'gemini_pro_2_5',
       parameters: {
         temperature: 0.3,
         max_tokens: 1000
       },
       version: 2,
       visibility: 'public',
-      structure_type: 'chain-of-thought'
+      structure_type: 'chain_of_thought'
     },
     {
       id: '3',
@@ -78,14 +78,14 @@ export function PromptsPage() {
       created_at: '2024-05-13T09:15:00Z',
       updated_at: '2024-05-13T09:15:00Z',
       provider: 'anthropic',
-      model: 'claude-3',
+      model: 'claude_3',
       parameters: {
         temperature: 0.9,
         max_tokens: 2000
       },
       version: 1,
       visibility: 'public',
-      structure_type: 'free-form'
+      structure_type: 'free_form'
     },
     {
       id: '4',
@@ -99,14 +99,14 @@ export function PromptsPage() {
       created_at: '2024-05-12T14:20:00Z',
       updated_at: '2024-05-12T14:20:00Z',
       provider: 'openai',
-      model: 'gpt-4',
+      model: 'gpt_4',
       parameters: {
         temperature: 0.4,
         max_tokens: 1500
       },
       version: 3,
       visibility: 'private',
-      structure_type: 'role-based'
+      structure_type: 'role_based'
     },
     {
       id: '5',
@@ -127,7 +127,7 @@ export function PromptsPage() {
       },
       version: 1,
       visibility: 'public',
-      structure_type: 'role-based'
+      structure_type: 'role_based'
     },
     {
       id: '6',
@@ -141,14 +141,14 @@ export function PromptsPage() {
       created_at: '2024-05-10T16:00:00Z',
       updated_at: '2024-05-10T16:00:00Z',
       provider: 'gemini',
-      model: 'gemini-flash-2.5',
+      model: 'gemini_flash_2_5',
       parameters: {
         temperature: 0.5,
         max_tokens: 1200
       },
       version: 1,
       visibility: 'public',
-      structure_type: 'few-shot'
+      structure_type: 'few_shot'
     }
   ];
 
@@ -187,10 +187,9 @@ export function PromptsPage() {
   });
 
   // Get unique values for filters
-  const availableCategories = [...new Set(prompts.map(p => p.category))];
+  const availableCategories = [...new Set(prompts.map(p => p.category).filter(Boolean))];
   const availableTags = [...new Set(prompts.flatMap(p => p.tags))];
   const availableProviders = [...new Set(prompts.map(p => p.provider))];
-  const availableStructureTypes = [...new Set(prompts.map(p => p.structure_type).filter(Boolean))];
 
   const handleTagSelect = (tag: string) => {
     if (selectedTags.includes(tag)) {
@@ -249,7 +248,7 @@ export function PromptsPage() {
         </div>
         <div className="mt-6">
           <p className="text-slate-300">
-            <strong>Pro Tip:</strong> Look for prompts with <span className="text-blue-400">{{variables}}</span> that you can customize for your specific needs.
+            <strong>Pro Tip:</strong> Look for prompts with <span className="text-blue-400">{"{{variables}}"}</span> that you can customize for your specific needs.
           </p>
         </div>
       </div>
@@ -290,7 +289,7 @@ export function PromptsPage() {
               <SelectContent className="bg-slate-800 border-slate-600">
                 <SelectItem value="all" className="text-white">All Categories</SelectItem>
                 {availableCategories.map((category) => (
-                  <SelectItem key={category} value={category} className="text-white">
+                  <SelectItem key={category} value={category || ''} className="text-white">
                     {category}
                   </SelectItem>
                 ))}
@@ -340,10 +339,10 @@ export function PromptsPage() {
               </SelectTrigger>
               <SelectContent className="bg-slate-800 border-slate-600">
                 <SelectItem value="all" className="text-white">All Structures</SelectItem>
-                <SelectItem value="free-form" className="text-white">Free-form</SelectItem>
-                <SelectItem value="role-based" className="text-white">Role-based</SelectItem>
-                <SelectItem value="chain-of-thought" className="text-white">Chain-of-thought</SelectItem>
-                <SelectItem value="few-shot" className="text-white">Few-shot</SelectItem>
+                <SelectItem value="free_form" className="text-white">Free-form</SelectItem>
+                <SelectItem value="role_based" className="text-white">Role-based</SelectItem>
+                <SelectItem value="chain_of_thought" className="text-white">Chain-of-thought</SelectItem>
+                <SelectItem value="few_shot" className="text-white">Few-shot</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -424,7 +423,7 @@ export function PromptsPage() {
                         </Badge>
                         {prompt.structure_type && (
                           <Badge variant="secondary" className="bg-slate-700/50 text-slate-300">
-                            {prompt.structure_type.replace(/-/g, ' ')}
+                            {prompt.structure_type.replace(/[_-]/g, ' ')}
                           </Badge>
                         )}
                       </div>
@@ -498,7 +497,7 @@ export function PromptsPage() {
                         </Badge>
                         {prompt.structure_type && (
                           <Badge variant="secondary" className="bg-slate-700/50 text-slate-300">
-                            {prompt.structure_type.replace(/-/g, ' ')}
+                            {prompt.structure_type.replace(/[_-]/g, ' ')}
                           </Badge>
                         )}
                       </div>
